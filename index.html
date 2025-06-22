@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="ROSETTA">
+  <meta property="og:title" content="ROSETTA: Constructing Code-Based Reward from Unconstrained Language Preference"/>
+  <meta property="og:description" content="ROSETTA extracts signal from complex, unconstrained human language preference and generates dense code-based reward for RL agents in a single shot."/>
+  <!--meta property="og:url" content="https://github.com/uclaml/SPIN"/-->
+  
+
+  <meta name="twitter:title" content="ROSETTA: Constructing Code-Based Reward from Unconstrained Language Preference">
+  <meta name="twitter:description" content="ROSETTA extracts signal from complex, unconstrained human language preference and generates dense code-based reward for RL agents in a single shot.">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="LLM, Multimodal, Data Mixture, Reinforcement Learning, GRPO, Post-Training">
+  <meta name="keywords" content="Reinforcement Learning, Embodied AI, Reward Generation, Human Preference, Human Evaluation, Code Generation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>ROSETTA: Constructing Code-Based Reward from Unconstrained Language Preference</title>
+  <link rel="icon" type="image/x-icon" href="static/images/rosetta-stone.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Custom colours for inline highlights -->
+  <style>
+    .has-text-blue  { color:#3273dc; }   /* Seed  (Bulma's primary blue)  */
+    .has-text-green { color:#48c78e; }   /* Heuristic  (Bulma success)    */
+    .has-text-pink  { color:#d946ef; }   /* Model‑Based                   */
+  </style>
+  
+
+</head>
+<body>
+
+    <!-- =====================================================
+     Data‑Mixture Strategy Cards  –  drop‑in component
+===================================================== -->
+
+
+
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title" style="font-size: 3.5rem;">
+                <img src="./static/images/rosetta-stone.png" width="60" style="vertical-align: -15%; margin-right: 5px;"/>
+                <span>ROSETTA</span>
+            </h1>
+            <h2 class="subtitle is-2 publication-subtitle">
+                Constructing Code-Based Reward from Unconstrained Language Preference
+            </h2>
+            <div class="is-size-5 publication-authors" style="margin-top: 2.5em;">
+                <a href="https://www.linkedin.com/in/sanjana-srivastava5/" target="_blank">Sanjana Srivastava<span title="Equal contribution" style="color: #f39c12;">&#9733;</span></a><sup>1</sup>,
+                <a href="https://jameskrw.github.io/" target="_blank">Kangrui Wang<span title="Equal contribution" style="color: #f39c12;">&#9733;</span></a><sup>2</sup>,
+                <a href="https://github.com/JerryYC" target="_blank">Yung-Chieh Chan<span title="Equal contribution" style="color: #f39c12;">&#9733;</span></a><sup>1</sup>,
+                <a href="https://rogerdai1217.github.io/" target="_blank">Tianyuan Dai</a><sup>1</sup>,
+                <a href="https://limanling.github.io/" target="_blank">Manling Li</a><sup>2</sup>,
+                <a href="https://ai.stanford.edu/~zharu/" target="_blank">Ruohan Zhang</a><sup>1</sup>,
+                <a href="https://mxu34.github.io/" target="_blank">Mengdi Xu</a><sup>1</sup>,
+                <a href="https://jiajunwu.com/" target="_blank">Jiajun Wu</a><sup>1</sup>,
+                <a href="https://www.linkedin.com/in/fei-fei-li-4541247/" target="_blank">Li Fei-Fei</a><sup>1</sup>
+            </div>
+            <div class="is-size-6 publication-affiliations" style="margin-top: 0.5em;">
+              <sup>1</sup>Department of Computer Science, Stanford University<br>
+              <sup>2</sup>Department of Computer Science, Northwestern University
+            </div>
+            <div class="column has-text-centered">
+                <div class="publication-links">
+                    <!-- arXiv link will be added later -->
+                    <span class="link-block">
+                        <a href="#" class="external-link button is-normal is-rounded is-dark" style="display: none;">
+                            <span class="icon">
+                                <i class="ai ai-arxiv"></i>
+                            </span>
+                            <span>arXiv</span>
+                        </a>
+                    </span>
+                    <!-- Twitter thread link will be added later -->
+                    <span class="link-block">
+                        <a href="#" class="external-link button is-normal is-rounded is-dark" style="display: none;">
+                            <span class="icon">
+                                <i class="fab fa-twitter"></i>
+                            </span>
+                            <span>Twitter</span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Intelligent embodied agents not only need to accomplish preset tasks, but also learn to align with individual human needs and preferences. Extracting reward signals from human language preferences allows an embodied agent to adapt through reinforcement learning. However, human language preferences are unconstrained, diverse, and dynamic, making constructing learnable reward from them a major challenge. We present ROSETTA, a framework that uses foundation models to ground and disambiguate unconstrained natural language preference, construct multi-stage reward functions, and implement them with code generation. Unlike prior works requiring extensive offline training to get general reward models or fine-grained correction on a single task, ROSETTA allows agents to adapt online to preference that evolves and is diverse in language and content. We test ROSETTA on both short-horizon and long-horizon manipulation tasks and conduct extensive human evaluation, finding that ROSETTA outperforms SOTA baselines and achieves 87% average success rate and 86% human satisfaction across 116 preferences.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Introduction section -->
+<section class="section" id="introduction">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths has-text-centered">
+        <h2 class="title is-3">Introduction</h2>
+        <video controls style="max-width: 100%; margin-bottom: 1.5rem;">
+          <source src="static/images/pull-vid.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content has-text-justified" style="text-align: justify;">
+          <p>
+            Human-centered embodied intelligence requires that humans be able to guide embodied agents to align with their preferences in their most naturally expressed forms. Reinforcement learning (RL)-based embodied agents have demonstrated the ability to adapt to high-level tasks, and specifying reward is more efficient than collecting extensive training data. However, humans have unique voices and changing goals. Adaptation requires handling unconstrained language and unseen goals that edit, build on, or even contradict prior goals at every step. Generating effective rewards under such conditions is an open problem.
+          </p>
+          <p>
+            We present <b>ROSETTA</b>: <b>Reward Objectives from Spontaneous Expression Translated to Agents</b>, a code-based reward generation pipeline that enables embodied agent adaptation to human natural language preference in a single step. It generates rewards from single statements that have no constraints on language, limited constraints on content, and accommodate chains of preferences in ongoing interactions even as they build on, edit, and contradict each other. We contribute <b>1) the ROSETTA method</b>, <b>2) state-of-the-art results that outperform baselines</b>, particularly on preferences that change task requirements, and <b>3) a thorough evaluation framework</b> that evades the pitfalls of narrow metrics.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Introduction section -->
+
+<!-- Methods section -->
+<section class="section" id="methods">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <h2 class="title is-3">Methods</h2>
+        <img src="static/images/methodfig.jpg" alt="ROSETTA Method Figure" style="width:100%; height:auto; display:block; margin: 0 auto 1.5rem auto;" />
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content has-text-justified" style="text-align: justify;">
+          <p>
+            ROSETTA uses a three-step pipeline to turn human language preference into dense reward code.
+          </p>
+          <ol>
+            <li><b>Preference Grounding (<code>gpt-4o</code>)</b>: the original preference is often vague, colloquial, missing context, and lacking grounding in the scene, so this module uses a VLM to ground and disambiguate.</li>
+            <li><b>Staging (<code>gpt-4o</code>)</b>: ROSETTA takes the grounded preference and generates a staged reward plan. This takes advantage of LLMs' known planning capabilities to describe a staged reward, which promotes flexibility and density.</li>
+            <li><b>Coding (<code>o1-mini</code>)</b>: this staged reward plan is given as a specification to the coding module, which writes the resulting dense reward code.
+              <ul style="list-style-type: none; margin-left: 1.2em; padding-left: 0;">
+                <li style="margin-top: -0.5em; margin-bottom: 0.2em;"><span style="font-weight: bold;">3a.</span> <b>Domain knowledge assertion and verification</b>: given the limitations of current LLMs, we give general knowledge about physical reasoning and reward, then reiterate it as verification questions to ensure it is integrated.</li>
+              </ul>
+            </li>
+          </ol>
+          <p>
+            This pipeline results in a set of variants. Some of these are trained, then shown to the original annotator, who chooses their favorite. ROSETTA is now ready for their next preference, which may build on the previous ones.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Methods section -->
+
+<!-- Preference Data section -->
+<section class="section" id="preference-data">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <h2 class="title is-3">Preference Data</h2>
+        <video controls style="width: 100%; height: auto; margin-bottom: 1.5rem;">
+          <source src="static/images/pref-chain-example.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content has-text-justified" style="text-align: justify;">
+          <p>
+            ROSETTA preferences are collected in sequential interactions for up to four steps, and have many diverse attributes. Here we visualize the attributes of a subset of preferences, and see an example of a chain that includes corrective, task-changing, colloquial, verbose, and context-dependent preferences.
+          </p>
+          <p>
+            The main set contains 116 preferences, with an additional 30 difficult preferences used for comparison to baselines and ablations. Within one chain of preference, the annotator is held constant, thereby testing ROSETTA's ability to handle true subjectivity and narrow preference.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Preference Data section -->
+
+<!-- Experimental Setup section -->
+<section class="section" id="experimental-setup">
+  <div class="container is-max-desktop">
+
+    <!-- section title -->
+    <div class="columns is-centered">
+      <div class="column is-three-fifths has-text-centered">
+        <h2 class="title is-3 mb-5">Experimental Setup</h2>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full">
+
+        <ul style="list-style-type:none; padding-left:0;">
+          <!-- Environments -->
+          <li class="media mb-3">
+            <figure class="media-left">
+              <span class="icon is-large has-text-blue">
+                <i class="fas fa-globe fa-2x"></i>
+              </span>
+            </figure>
+            <div class="media-content">
+              <p class="mb-0"><span class="title is-4"><strong>Environments:</strong></span> <span class="is-size-5 has-text-grey">Task-agnostic. 2 short-horizon (continuous control), 3 long-horizon (primitives), ManiSkill&nbsp;3</span></p>
+            </div>
+          </li>
+
+          <!-- Training -->
+          <li class="media mb-3">
+            <figure class="media-left">
+              <span class="icon is-large has-text-green">
+                <i class="fas fa-cogs fa-2x"></i>
+              </span>
+            </figure>
+            <div class="media-content">
+              <p class="mb-0"><span class="title is-4"><strong>Training:</strong></span> <span class="is-size-5 has-text-grey">PPO (continuous control), SAC (MAPLE primitives)</span></p>
+            </div>
+          </li>
+
+          <!-- Baselines -->
+          <li class="media mb-3">
+            <figure class="media-left">
+              <span class="icon is-large has-text-pink">
+                <i class="fas fa-chart-line fa-2x"></i>
+              </span>
+            </figure>
+            <div class="media-content">
+              <p class="mb-0"><span class="title is-4"><strong>Baselines:</strong></span> <span class="is-size-5 has-text-grey">Eureka, Text2Reward</span></p>
+            </div>
+          </li>
+
+          <!-- Ablations -->
+          <li class="media">
+            <figure class="media-left">
+              <span class="icon is-large has-text-danger">
+                <i class="fas fa-flask fa-2x"></i>
+              </span>
+            </figure>
+            <div class="media-content">
+              <p class="mb-0"><span class="title is-4"><strong>Ablations:</strong></span> <span class="is-size-5 has-text-grey">no-grounding, no-staging, no-followup</span></p>
+            </div>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Experimental Setup section -->
+
+<!-- Long-Horizon Task Setting section -->
+<section class="section" id="long-horizon-task">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <h2 class="title is-3">Long Horizon Action Primitives: Sim and Real</h2>
+        <video controls style="width: 100%; height: auto; margin-bottom: 0.5rem;">
+          <source src="static/images/long-horizon-sim.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div style="margin-bottom: 2rem;">
+          <span class="is-size-5" style="display: block; text-align: center;"><b>Long horizon action primitives setting in simulation.</b></span>
+        </div>
+        <video controls style="width: 100%; height: auto; margin-bottom: 0.5rem;">
+          <source src="static/images/long-horizon-real.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div>
+          <span class="is-size-5" style="display: block; text-align: center;"><b>Long horizon action primitives setting on real robot.</b> State-based observation, determined with FoundationPose. We don't observe any sim2real gap - assuming a correct state, all action primitive-based policies were trained in simulation and transferred without degradation to the real robot.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Long-Horizon Task Setting section -->
+
+<!--BibTex citation -->
+  <!--section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code></code></pre>
+    </div>
+</section-->
+<!--End BibTex citation -->
+
+<!-- Evaluation Suite section -->
+<section class="section" id="evaluation-suite">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered mb-6">Evaluation Suite</h2>
+
+    <!-- Alignment Metric -->
+    <div class="columns is-vcentered mb-6">
+      <div class="column is-narrow has-text-centered" style="padding-left: 2em;">
+        <img src="static/images/metric-icons/woman1.png" style="height: 4.5em; vertical-align: middle; margin-right: 0.2em;" alt="woman1 icon">
+        <img src="static/images/metric-icons/man.png" style="height: 4.5em; vertical-align: middle; margin-right: 0.2em;" alt="man icon">
+        <img src="static/images/metric-icons/woman0.png" style="height: 4.5em; vertical-align: middle;" alt="woman0 icon">
+      </div>
+      <div class="column" style="padding-right: 2em; background: #f7f7fa; border-radius: 1em; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+        <h3 class="title is-4 mb-2" style="display: inline-block; vertical-align: middle;">Alignment</h3>
+        <div class="content" style="margin-top: 0.2em;">
+          <span><b>Satisfaction measured through human survey.</b> We consider the satisfaction of the original preference annotator to be the gold standard measure of ROSETTA's success. To that end, we measure it through binary and ternary descriptive questions such as "did the robot incorporate your preference that wasn't met in the previous video", and binary and Likert questions that quantify satisfaction.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optimizability Metric -->
+    <div class="columns is-vcentered mb-6">
+      <div class="column" style="padding-left: 2em; background: #f9f9f9; border-radius: 1em; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+        <h3 class="title is-4 mb-2" style="display: inline-block; vertical-align: middle;">Optimizability</h3>
+        <div class="content" style="margin-top: 0.2em;">
+          <span><b>Task success rate on generated reward function.</b> To ensure that ROSETTA reward functions are well-behaved and result in desirable behaviors intentionally, not just by happenstance, we also measure standard task success rate. However, we note that in our setting, task success rate is not informative about whether the goal matches the preference, only whether the algorithm is able to optimize for the goal. So, we consider it a measure of <i>optimizability</i> rather than success.</span>
+        </div>
+      </div>
+      <div class="column is-narrow has-text-centered" style="padding-right: 2em;">
+        <img src="static/images/metric-icons/graph.png" style="height: 6em; vertical-align: middle;" alt="graph icon">
+      </div>
+    </div>
+
+    <!-- Semantic Match Metric -->
+    <div class="columns is-vcentered mb-6">
+      <div class="column is-narrow has-text-centered" style="padding-left: 2em;">
+        <img src="static/images/metric-icons/semantic-match.png" style="height: 4.5em; vertical-align: middle;" alt="semantic match icon">
+      </div>
+      <div class="column" style="padding-right: 2em; background: #f7f7fa; border-radius: 1em; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+        <h3 class="title is-4 mb-2" style="display: inline-block; vertical-align: middle;">Semantic Match</h3>
+        <div class="content" style="margin-top: 0.2em;">
+          <span><b>Expert-evaluated semantic alignment between preference and reward code text.</b> This is to have a metric that evaluates ROSETTA's ability to match the semantics of the preference, making it complementary to Optimizability metrics. We measure from text directly to bypass 1) noise from measuring human satisfaction, 2) noise from communicating a policy via rollout videos, and 3) undesirable behaviors that come from small RL shaping details or training quirks that are important, but not related to high-level semantics.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Evaluation Suite section -->
+
+<!-- Results section -->
+<section class="section" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered mb-6">Results</h2>
+
+    <!-- ROSETTA vs. Baselines -->
+    <div class="mb-6">
+      <h3 class="title is-4 mb-3">ROSETTA vs. Baselines</h3>
+      <figure class="image" style="text-align: center; margin-bottom: 0;">
+        <img src="static/images/rosetta_vs_baselines_combined.jpg" alt="ROSETTA vs. Baselines" style="max-width: 100%; height: auto; display: inline-block; margin-bottom: 0;" />
+      </figure>
+      <div style="height: 1.2em;"></div>
+      <p class="is-size-6" style="text-align: center; margin-top: 0; margin-bottom: 2em;">
+        Eureka and Text2Reward suffer on optimizability in cases where the task requirements change, which is 80% of preferences. This effect is very clear for optimizability, where Eureka and Text2Reward are explicitly unable to change task requirements. However, it is also true for alignment, even though a good-looking rollout will score well regardless of numeric task success rate. The baselines perform as well or better on corrective preferences (25% of all preferences), where task requirements don't change.
+      </p>
+    </div>
+
+    <!-- ROSETTA vs. Ablations -->
+    <div class="mb-6">
+      <h3 class="title is-4 mb-3">ROSETTA vs. Ablations</h3>
+      <figure class="image" style="text-align: center; margin-bottom: 0;">
+        <img src="static/images/rosetta_vs_ablations_combined.jpg" alt="ROSETTA vs. Ablations" style="max-width: 100%; height: auto; display: inline-block; margin-bottom: 0;" />
+      </figure>
+      <div style="height: 1.2em;"></div>
+      <p class="is-size-6" style="text-align: center; margin-top: 0; margin-bottom: 2em;">
+        Ablations suffer much more on alignment than on optimizability. This is because the non-coding modules that are ablated out are typically most responsible for extracting semantic meaning; the coding module is for realizing that meaning but is less capable of interpretation. They perform as well on optimizability, as they still have ROSETTA's coding power. In fact, the no-grounding ablation in particular performs very well. This is often because ungrounded preferences are unclear enough that the later modules ignore them entirely and output the old reward function, which may be easier. It's therefore quite optimizable, while being unrelated to the actual current preference.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- End Results section -->
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          <a href="https://www.flaticon.com/free-icons/rosetta-stone" title="rosetta stone icons" class="is-size-7">Rosetta stone icons created by Icongeek26 - Flaticon</a><br>
+          <span class="is-size-7">
+            <a href="https://www.flaticon.com/free-icons/girl" title="girl icons">Girl icons created by Vitaly Gorbachev - Flaticon</a> |
+            <a href="https://www.flaticon.com/free-icons/person" title="person icons">Person icons created by Vitaly Gorbachev - Flaticon</a> |
+            <a href="https://www.flaticon.com/free-icons/woman" title="woman icons">Woman icons created by Vitaly Gorbachev - Flaticon</a> |
+            <a href="https://www.flaticon.com/free-icons/graph" title="graph icons">Graph icons created by Freepik - Flaticon</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  </body>
+  </html>
