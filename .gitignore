@@ -48,7 +48,7 @@ coverage/
 
 # Ignore all images
 # static/images/*
-*.zip
+static-images.zip
 
 # Except .gitkeep if you want to keep the directory
 !static/images/.gitkeep 
